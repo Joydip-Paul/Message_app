@@ -1,0 +1,184 @@
+<html>
+    <head>
+        <title>NoteBook</title>
+        <style>
+            body{
+                margin: 0;
+                padding: 0;
+                background-color:darkgrey;
+                font-family: Arial, Helvetica, sans-serif;
+            }
+            .box1{
+                min-height: 200px;
+                width: 350px;
+                background-color: darkslategray;
+                position: absolute;
+                top: 20%;
+                left: 50%;
+                transform: translate(-50%,-50%);
+                margin-top: -10px;
+            }
+            /* .box2{
+                min-height: 300px;
+                width: 350px;
+                background-color:darkslategray;
+                position: absolute;
+                top: 60%;
+                left: 50%;
+                transform: translate(-50%,-50%);
+            } */
+            .box3{
+                min-height: 300px;
+                width: 350px;
+                background-color: white;
+                position: absolute;
+                top: 60%;
+                left: 50%;
+                transform: translate(-50%,-50%);
+            }
+            .inputtext{
+                width: 300px;
+                height: 40px;
+                margin-bottom: 20px;
+                margin-left: 20px;
+                margin-top: 10px;
+            }
+            .txtarea{
+                width: 300px;
+                height: 100px;
+                margin-left: 20px;
+                margin-bottom: 10px;
+            }
+            button{
+                margin-left: 20px;
+            }
+            .del{
+                margin-top: 240px; 
+                width: 120px;
+                height: 30px;
+                background-color: darkslategray;
+                color: white;
+                font-size: 20px;
+                margin-left: 120px;
+            }
+            #sen{
+                width: 300px;
+                height: 30px;
+                background-color:white;
+                font-size: 20px;
+                margin-bottom: 20px;
+                border-radius: 20px;
+                outline: none;
+                border: none;
+                cursor: pointer;
+            }
+            #list{
+                position: absolute;
+                font-size: 20px;
+                margin-left: 20px;
+                list-style: none;
+                margin-top: 50px;
+                cursor: pointer;
+            }
+            #output1{
+                position: absolute;
+                font-size: 25px;
+                margin-left: 50px;
+                margin-left: 100px;
+                text-transform: uppercase;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="box1">
+            <input type="text" placeholder="Enter Your Name" class="inputtext" id="txt"><br>
+            <textarea class="txtarea" placeholder="Enter Your Message" id="msg" onfocus="this.value =''"></textarea>
+            <button onclick="display()" id="sen">Send</button>
+        </div>
+        <div class="box2">
+            
+        </div>
+        <div class="box3">
+            <h1 id="output1"></h1>
+            <h2 id="output2"></h2>
+            <h3 id="show"></h3>
+            <ul id="list">
+            </ul>
+            <button class="del" onclick="cancel()">Delete</button>
+        </div>
+        <script>
+
+
+
+            var name = document.getElementById("output1");
+            var showname = document.getElementById("txt");
+
+            var button = document.getElementById("sen");
+            
+            button.addEventListener("click",function()
+                {
+                var x = document.getElementById("txt").value;
+                document.getElementById("output1").innerHTML = x;
+                } );
+
+
+
+
+           var inputText = document.getElementById("msg");
+           var items = document.querySelectorAll("#list li");
+           var array = [], index;
+
+           for(var i=0;i<items.length;i++)
+           {
+               array.push(items[i].innerHTML);
+           }
+
+           for(var i=0;i<items.length;i++)
+           {
+               items[i].onclick = function(){
+                 index = array.indexOf(this.innerHTML);
+                 inputText.value = this.innerHTML; 
+               };
+           }
+           function refreshArray()
+           {
+               array.length = 0;
+               items = document.querySelectorAll("#list li");
+               for(var i=0;i<items.length;i++)
+               {
+                   array.push(items[i].innerHTML);
+               }
+           }
+           function display()
+           {
+               var listindex = document.getElementById("list");
+               var textnode = document.createTextNode(inputText.value);
+               var linode = document.createElement("LI");
+               
+               
+
+               linode.appendChild(textnode);
+               listindex.appendChild(linode);
+
+
+               refreshArray();
+
+
+               linode.onclick = function()
+               {
+                   index = array.indexOf(linode.innerHTML);
+                   inputText.value = linode.innerHTML;;
+               };
+           }
+           function cancel()
+           {
+               refreshArray();
+               if(items.length > 0)
+               {
+                   items[index].parentNode.removeChild(items[index]);
+                   inputText.value = "";
+               }
+           }
+        </script>
+    </body>
+</html>
